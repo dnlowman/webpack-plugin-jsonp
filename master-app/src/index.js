@@ -1,10 +1,7 @@
+var React = require('react');
+var ReactDOM = require('react-dom');
+
 console.log('Master App!');
-
-console.log('[Loading Plugins...]');
-
-loadAllThePlugins('test', function() {
-    console.log('Loaded!...');
-});
 
 function loadAllThePlugins(name, callback) {
     window[name] = function(exports) {
@@ -21,3 +18,30 @@ function loadAllThePlugins(name, callback) {
     script.src = "/plugins/" + name + "/bundle.js";
     head.appendChild(script);
 }
+
+class MasterApp extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
+    componentDidMount() {
+        console.log('[Mounted, Loading ze Plugins...]');
+
+        loadAllThePlugins('test', function(wat, exports) {
+            console.log('Loaded!...');
+            this.setState({ component: exports.SomeComponent });
+        }.bind(this));
+    }
+
+    render() {
+        return (
+            <div>
+                <p>This is le master component...</p>
+                {(this.state.component) ? <this.state.component /> : <p>No components loaded...</p>}
+            </div>
+        );
+    }
+}
+
+ReactDOM.render(<MasterApp />, document.getElementById('react-container'));

@@ -11,5 +11,10 @@ module.exports = {
         new HtmlWebpackPlugin({
           template: 'index.html'
         })
-    ]
+    ],
+    module: {
+        loaders: [
+            { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
+        ]
+    }
 };
