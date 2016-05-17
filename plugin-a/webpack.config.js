@@ -14,5 +14,10 @@ module.exports = {
     },
     plugins: [
         new webpack.BannerPlugin('testplugin')
-    ]
+    ],
+    module: {
+        loaders: [
+            { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
+        ]
+    }
 };
